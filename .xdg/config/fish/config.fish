@@ -4,12 +4,6 @@ if status is-login
        	launch-sway
     end
 end
-### AUTOCOMPLETE AND HIGHLIGHT COLORS ###
-# set fish_color_normal brcyan
-# set fish_color_autosuggestion '#7d7d7d'
-# set fish_color_command brcyan
-# set fish_color_error '#ff6c6b'
-# set fish_color_param brcyan
 
 ### ALIASES ###
 
@@ -45,6 +39,5 @@ alias psmem10='ps auxf | sort -nr -k 4 | head -10'
 alias pscpu='ps auxf | sort -nr -k 3'
 alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
 
-### SETTING THE STARSHIP PROMPT ###
-# starship init fish | source
+# git to dot
 alias config="/usr/bin/git --git-dir=$XDG_CONFIG_HOME/ --work-tree=$HOME"
