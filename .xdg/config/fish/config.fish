@@ -1,3 +1,6 @@
+# GPG Profile
+set -x GPG_TTY (tty)
+
 # Start Sway at login
 if status is-login
     if test -z "$DISPLAY" -a $XDG_VTNR = 1
@@ -41,3 +44,11 @@ alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
 
 # git to dot
 alias config="/usr/bin/git --git-dir=$XDG_CONFIG_HOME/ --work-tree=$HOME"
+
+# SSH-agent
+if test -z (pgrep ssh-agent)
+  eval (ssh-agent -c)
+  set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
+  set -Ux SSH_AGENT_PID $SSH_AGENT_PID
+  set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
+end
