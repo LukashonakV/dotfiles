@@ -46,9 +46,28 @@ alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
 alias config="/usr/bin/git --git-dir=$XDG_CONFIG_HOME/ --work-tree=$HOME"
 
 # SSH-agent
-if test -z (pgrep ssh-agent)
-  eval (ssh-agent -c)
-  set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
-  set -Ux SSH_AGENT_PID $SSH_AGENT_PID
-  set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
+setenv SSH_ENV $HOME/.ssh/environment
+source $XDG_CONFIG_HOME/fish/functions/ssh_agent_start.fish
+
+if [ -n "$SSH_AGENT_PID" ] 
+    ps -ef | grep $SSH_AGENT_PID | grep ssh-agent > /dev/null
+    if [ $status -eq 0 ]
+        test_identities
+    end  
+else
+    if [ -f $SSH_ENV ]
+        . $SSH_ENV > /dev/null
+    end  
+    ps -ef | grep $SSH_AGENT_PID | grep -v grep | grep ssh-agent > /dev/null
+    if [ $status -eq 0 ]
+        test_identities
+    else 
+        start_agent
+    end  
 end
+#if test -z (pgrep ssh-agent)
+#  eval (ssh-agent -c) > /dev/null
+#  set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
+#  set -Ux SSH_AGENT_PID $SSH_AGENT_PID
+#  set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
+#end
